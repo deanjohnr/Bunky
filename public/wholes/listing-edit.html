@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fbook">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Roommi</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+
+    <script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+    <script data-require="angular.js@1.2.x" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.js" data-semver="1.2.1"></script>
+    <script src="http://pc035860.github.io/angular-highlightjs/angular-highlightjs.min.js"></script>
+    <script src="http://pc035860.github.io/angular-easyfb/angular-easyfb.min.js"></script>
+    <script src="http://www.parsecdn.com/js/parse-1.2.13.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+    <script src="../js/angapp.js"></script>
+    <script src="../js/gmapsadd.js"></script>
+
+</head>
+
+<body ng-controller="MainCtrl" onload="initialize()">
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Project name</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Settings</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+      <form class="navbar-form navbar-right">
+        <input type="text" class="form-control" placeholder="Search...">
+      </form>
+    </div>
+  </div>
+</nav>
+
+<div class="row">
+    <div class="container">
+
+      <div>
+        <button class="btn btn-primary" ng-click="login()" ng-disabled="loginStatus.status == 'connected'">Connect with Facebook</button>
+         &nbsp; 
+        <button class="btn btn-danger" ng-click="logout()" ng-disabled="!loginStatus || loginStatus.status != 'connected'">Logout</button>
+         &nbsp;
+        <button class="btn btn-default" ng-click="profileSave()" ng-disabled="!loginStatus || loginStatus.status != 'connected'">Save Profile</button>
+      </div>
+      
+      <br>
+
+      <br>
+      <!--POSTING FORM-->
+      <form role="form" id="myform">
+        <div class="form-group" id="locationField">
+          <input id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text" ng-model="listing.googaddress"></input>
+        </div>
+
+        <div class="form-group">
+	      <label for="aptnum">Apt #</label>
+	      <input type="text" class="form-control" id="aptnum" placeholder="Apt #" ng-model="listing.aptnum">
+        </div>
+        <div class="form-group">
+          <label for="listurl">Listing URL</label>
+          <input type="url" class="form-control" id="listurl" placeholder="Enter URL" ng-model="listing.listurl">
+        </div>
+        <div class="form-group">
+          <label for="rent">Rent</label>
+          <input type="number" class="form-control" id="rent" placeholder="Enter rent" ng-model="listing.rent">
+        </div>
+        <div class="form-group">
+          <label for="avldate">Available Date</label>
+          <input type="month" class="form-control" id="avldate" ng-model="listing.avldate">
+        </div>
+        <div class="form-group">
+          <label for="beds">Beds - {{listing.beds}}</label>
+          <input type="range" min="0" max="10" class="form-control" id="beds" ng-model="listing.beds">
+        </div>
+        <div class="form-group">
+          <label for="baths">Baths - {{listing.baths}}</label>
+          <input type="range" min="0" max="10" class="form-control" id="baths" ng-model="listing.baths">
+        </div>
+
+        <!-- Image Upload -->
+        <div flow-init>
+          <input type="file" flow-btn />
+          <tr ng-repeat="file in $flow.files">
+			 <td>{{$index+1}}</td>
+			 <td>{{file.name}}</td>
+		  </tr>
+        </div>
+
+        <div flow-init="{target: '/upload'}"
+		     flow-files-submitted="$flow.upload()"
+		     flow-file-success="$file.msg = $message">
+
+		  <input type="file" flow-btn/>
+		  Input OR Other element as upload button
+		  <span class="btn" flow-btn>Upload File</span>
+
+		  <table>
+		    <tr ng-repeat="file in $flow.files">
+		        <td>{{$index+1}}</td>
+		        <td>{{file.name}}</td>
+		        <td>{{file.msg}}</td>
+		    </tr>
+		  </table>
+		  <img flow-img="$flow.files[0]" />
+		</div>
+        
+        <button ng-click="addListing(listing)" class="btn btn-default">Save Listing</button>
+
+      </form>
+      
+      <br>
+
+      <h4>
+        Hello, <span ng-show="me.name">{{ me.name }}</span><span ng-show="me.error">unkown</span>!
+      </h4>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="text-info">$FB.loginStatus()</h4>
+          <div class="code-block" hljs source="loginStatusJSON"></div>
+        </div>
+        <div class="col-md-6">
+          <h4 class="text-info">$FB.api('/me') & $FB.api('/me/likes')</h4>
+          <div class="code-block" hljs source="apiResJSON"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+<!-- jQuery -->
+<script src="../js/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../js/bootstrap/bootstrap.min.js"></script>
+
+<!-- ng-flow JavaScript -->
+<script src="../js/angular/ng-flow-standalone.min.js"></script>
+
+</body>
+
+</html>

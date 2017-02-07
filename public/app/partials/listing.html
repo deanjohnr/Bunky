@@ -1,0 +1,104 @@
+<style type="text/css">
+	.carousel-inner { height: 300px; }
+	.angular-google-map-container { height: 300px; }
+</style>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<h3>{{listing.address}}</h3>
+		</div>
+		<div class="col-md-6">
+			<h3 ng-if="$root.currentUser"><button class="btn btn-danger center-block alert-btn" ng-hide="applyalert" ng-click="apply()">APPLY TO LISTING</button><button class="btn btn-danger center-block alert-btn" ng-disabled="true" ng-show="applyalert">APPLIED</button></h3>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6" style="height: 300px;">
+			<carousel interval="0">
+				<slide ng-repeat="pic in picUrls" active="slide.active">
+					<img ng-src="{{pic}}" style="margin: auto; max-height: 300px; width: auto;">
+				</slide>
+		    </carousel>
+		</div>
+		<div class="col-md-6">
+			<ui-gmap-google-map center='map.center' zoom='map.zoom'>
+	            <ui-gmap-marker
+			        idKey='marker.id'
+			        coords='marker.coords'
+			        >
+				</ui-gmap-marker>
+	            <ui-gmap-layer type='TransitLayer'></ui-gmap-layer>
+	        </ui-gmap-google-map>
+		</div>
+	</div>
+</div>
+<div class="container">	
+	<div class="row">
+		<div class="col-md-12">
+			<h4>${{listing.rent}}/month | Beds: {{listing.beds}} / Baths: {{listing.baths}}</h4>
+		</div>
+		<div class="col-md-6">
+			<table>
+				<tr ng-show="listing.appcount > 0">
+					<td class="profile-icon-td"><i class="fa fa-line-chart profile-icon"></i></td>
+					<td class="profile-data-td"><span>Applicants: {{listing.appcount}}</span></td>
+				</tr>
+				<tr ng-show="listing.dt">
+					<td class="profile-icon-td"><i class="fa fa-calendar profile-icon"></i></td>
+					<td class="profile-data-td"><span>Available: {{listing.dt}}</span></td>
+				</tr>
+				<tr ng-show="listing.enddt">
+					<td class="profile-icon-td"><i class="fa fa-calendar profile-icon"></i></td>
+					<td class="profile-data-td"><span>End: {{listing.enddt}}</span></td>
+				</tr>
+				<tr ng-show="listing.gender">
+					<td class="profile-icon-td"><i class="fa fa-users profile-icon"></i></td>
+					<td class="profile-data-td"><span>Roommates: {{listing.gender}}</span></td>
+				</tr>
+				<tr ng-show="listing.templaundry">
+					<td></td>
+					<td class="profile-data-td"><span>Laundry {{listing.laundry}}</span></td>
+				</tr>
+				<tr ng-show="listing.tempair">
+					<td></td>
+					<td class="profile-data-td"><span>Has {{listing.air}}</span></td>
+				</tr>
+			</table>
+		</div>
+		<div class="col-md-6">
+			<p>{{listing.desc}}</p>
+		</div>
+	</div>	
+	<div ng-hide="$root.currentUser" class="row">
+		<h4 class="text-center">Login with Facebook to see the lister profile and apply</h4>
+		<button class="btn btn-primary center-block" ng-click="fbConnect()">Login with Facebook</button>
+	</div>
+</div>
+<div class="container">
+	<div ng-if="$root.currentUser" class="row">
+		<div class="col-md-6" style="height: 300px;">
+			<carousel interval="0">
+				<slide ng-repeat="prof in profile.propics" active="slide.active">
+					<img ng-src="{{prof}}" style="margin: auto; max-height: 300px; width: auto;">
+				</slide>
+		    </carousel>
+		</div>
+		<div class="col-md-6">
+			<h3>{{profile.name}}</h3>
+			<h4>{{profile.gender}}, {{profile.age}}</h4>
+			<table>
+				<tr ng-show="profile.work">
+					<td class="profile-icon-td"><i class="fa fa-briefcase profile-icon"></i></td>
+					<td class="profile-data-td"><span ng-repeat="job in profile.work"> {{job.employer.name}}<span ng-hide="$last">,</span></span></td>
+				</tr>
+				<tr ng-show="profile.education">
+					<td class="profile-icon-td"><i class="fa fa-graduation-cap profile-icon"></i></td>
+					<td class="profile-data-td"><span ng-repeat="edu in profile.education"> {{edu.school.name}}<span ng-hide="$last">,</span></span></td>
+				</tr>
+			</table>
+			<h3><button class="btn btn-danger center-block alert-btn" ng-hide="applyalert" ng-click="apply()">APPLY TO LISTING</button><button class="btn btn-danger center-block alert-btn" ng-disabled="true" ng-show="applyalert">APPLIED</button></h3>
+			<button class="btn btn-default pull-right" ng-click="listflag()" ng-disabled="flagged"><i class="fa fa-flag"></i></button>
+		</div>
+	</div>
+</div>

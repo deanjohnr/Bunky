@@ -1,0 +1,168 @@
+<br>
+<div class="row">
+  <div class="container">
+      <!--POSTING FORM-->
+    <div class="col-lg-7">
+      <form role="form" id="myform" name="listingForm">
+        <div class="form-group" id="locationField" style="width: 100%">
+          <label for="autocomplete">Address</label>
+          <input id="autocomplete" placeholder="Address" ng-focus="geolocate()" type="text" ng-model="listing.fulladdress" style="width: 99%" required></input>
+          <!-- <input type="text" ngAutocomplete ng-model="autocomplete" options="options" details="details"/> -->
+        </div>
+
+        <p ng-show="place.types[0] != 'street_address'">Please choose a street address</p>
+
+        <div class="form-group">
+  	      <label for="aptnum">Apt #</label>
+  	      <input type="text" class="form-control" id="aptnum" placeholder="Apt #" ng-model="listing.aptnum">
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn btn-primary cust-checkbox" ng-model="listing.isaddressfull" btn-checkbox btn-checkbox-true="false" btn-checkbox-false="true" id="isaddressfull" name="isaddressfull"><span ng-show="listing.isaddressfull">Hide </span><span ng-show="!listing.isaddressfull">Show </span>Street Number</button>
+          <label for="isaddressfull" ng-show="listing.isaddressfull">Preview: {{listing.medaddress}}</label>
+          <label for="isaddressfull" ng-show="!listing.isaddressfull">Preview: {{listing.shortaddress}}</label>
+        </div>
+
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">$</div>
+            <input type="number" class="form-control" id="rent" name="rent" ng-model="listing.rent" placeholder="Enter Rent" required>
+            <div class="input-group-addon">Monthly</div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="center-block">
+            <label>Available Date</label>
+            <div style="display:inline-block; min-height:290px;">
+                <datepicker ng-model="listing.dt" min-date="minDate" show-weeks="false" class="well well-sm"></datepicker>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="center-block">
+            <label>End Date</label>
+            <div style="display:inline-block; min-height:290px;">
+              <datepicker ng-model="listing.enddt" min-date="minDate" show-weeks="false" class="well well-sm"></datepicker>
+            </div>
+          </div>
+        </div>
+        <pre>{{ listing.dt | date:'shortDate' }} - {{ listing.enddt | date:'shortDate' }}</pre>
+
+        <p ng-show="listing.dt > listing.enddt">I think end date must be after the available date</p>
+        
+
+        <div class="form-group">
+          <label for="beds">Beds - {{listing.beds}}</label>
+          <input type="range" min="0" max="10" class="form-control" id="beds" ng-model="listing.beds" required>
+        </div>
+        <div class="form-group">
+          <label for="baths">Baths - {{listing.baths}}</label>
+          <input type="range" min="0" max="10" class="form-control" id="baths" ng-model="listing.baths" required>
+        </div>
+
+        <div class="form-group">
+          <button type="button" class="btn btn-primary cust-checkbox" ng-model="listing.laundry" btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false" id="laundry">Laundry In Building?</button>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-primary cust-checkbox" ng-model="listing.air" btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false" id="air">Air Conditioning?</button>
+        </div>
+        <div class="form-group">
+          <label for="laundry">Current Tenant Gender</label>
+          <div class="btn-group" id="gender">
+            <label class="btn btn-primary" ng-model="listing.gender" btn-radio="'Female'" ng-disabled="gender == 'male'">All Female</label>
+            <label class="btn btn-primary" ng-model="listing.gender" btn-radio="'Male'" ng-disabled="gender == 'female'">All Male</label>
+            <label class="btn btn-primary" ng-model="listing.gender" btn-radio="'Male and Female'">Both</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="desc">Description</label>
+          <textarea type="textarea" rows="5" cols="50" class="form-control" id="desc" name="desc" ng-model="listing.desc" ng-maxlength="1000"></textarea>
+        </div>
+
+        <h4>Please tell us what money you plan on collecting from your renter before move-in. If you do not plan on collecting a certain fee, just enter '0' for that field.</h4>
+
+        <div class="form-group">
+          <label for="otherfee">Application Fee</label>
+          <div class="input-group" id="appfee">
+            <div class="input-group-addon">$</div>
+            <input type="number" class="form-control" placeholder="Application Fee" ng-model="deal.appfee" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="depositfee">Deposit</label>
+          <div class="input-group" id="depositfee">
+            <div class="input-group-addon">$</div>
+            <input type="number" class="form-control" placeholder="Deposit" ng-model="deal.depositfee" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="rentfee">First/Last Month's Rent</label>
+          <div class="input-group" id="rentfee">
+            <div class="input-group-addon">$</div>
+            <input type="number" class="form-control" placeholder="Rent" ng-model="deal.rentfee" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="otherfee">Other (optional)</label>
+          <div class="input-group" id="otherfee">
+            <div class="input-group-addon">$</div>
+            <input type="number" class="form-control" placeholder="Other" ng-model="deal.otherfee" required>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+    <div class="col-lg-5">
+
+      <h3>Image Upload</h3>
+
+      <input type="file" class="btn btn-sucess" accept="/image*" multiple="multiple" onchange="angular.element(this).scope().uploadFile(this.files)" ng-disabled="pictureFiles.length > 4"/>
+
+      <!-- <div ng-hide="picErrors"> -->
+        <div ng-repeat="err in picErrors">
+          <p>{{err}} could not be uploaded because I am scrawny and cant handle your massive image file. I can only carry 200KB right now. I will be able to lift more file soon.</p>
+        </div>
+      <!-- </div> -->
+
+        <div ng-repeat="picUrl in picUrls">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="col-xs-6">
+                  <img class="img-responsive center-block" ng-cloak ng-src="{{picUrl}}" style="max-height:150px;">
+              </div>
+              <div class="col-xs-6">
+                  <button class="btn btn-default" ng-disabled="$last" ng-click="moveDown($index)">Down</button>
+                  <button class="btn btn-primary" ng-disabled="$first" ng-click="moveUp($index)">Up</button>
+                  <button class="btn btn-danger" ng-click="deletePhoto($index)">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-7">
+
+      <button ng-click="saveListing()" class="btn btn-danger" ng-disabled="pictureFiles.length != 5 || listing.enddt < listing.dt || place.types[0] != 'street_address' || listingForm.$error.required || listingForm.desc.$error.maxlength || listing.rent > 10000 || listing.rent < 100">Save Listing</button>
+      <div class="alert alert-info" role="alert" ng-show="savealert">{{savealert}}</div>
+
+      <div ng-show="sharelink">
+        <h3>Insert Into Craigslist Listing Description</h3>
+        <pre><span>Please apply with Bunky at http://www.bunky.co/#!/listing/{{sharelink}}</span></pre>
+      </div>
+
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+
+    </div>
+
+  </div>
+
+</div>

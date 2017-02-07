@@ -1,0 +1,132 @@
+<style type="text/css">
+	.carousel-inner { height: 200px; }
+	.angular-google-map-container { height: 200px; }
+	.panel {
+		border-right: 0;
+		border-left: 0;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+	.panel-default>.panel-heading {
+		background-color: #fff;
+	}
+	.panel-body {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.inner-body {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	.chat-container {
+		position: fixed;
+	}
+</style>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-8">
+			<div ng-show="listings.length > 0">
+				<accordion close-others=true>
+				  	<div ng-repeat="place in listings">
+					    <accordion-group>
+					    	<accordion-heading>
+					    		<table>
+					    			<td>
+					    				<img ng-src="{{place.lister.propics[0]}}" class="" height="50px">
+					    			</td>
+					    			<td class="thumb-data-td">
+							    		<h4>
+							    			{{place.lister.name}}  |  {{place.lister.gender}}, {{place.lister.age}}
+							    		</h4>
+							    	</td>
+					    		</table>
+					    	</accordion-heading>
+
+					    	<div class="panel-body inner-body">
+					    	<!-- <div class="container"> -->
+								<div class="row">
+									<div class="col-md-12">
+										<h4 class="inline-block">{{place.listing.address}}</h4>
+										<button class="btn btn-primary pull-right" ng-click="openSearchChat(place.listing.id)"><i class="fa fa-comment"></i></button>
+									</div>
+								</div>
+							
+								<div class="row">
+									<div class="col-md-6" style="height: 200px;">
+										<carousel interval="0">
+											<slide ng-repeat="pic in place.listing.picUrls" active="slide.active">
+												<img ng-src="{{pic}}" style="margin: auto; max-height: 200px; width: auto;">
+											</slide>
+									    </carousel>
+									</div>
+									<div class="col-md-6">
+										<h4>${{place.listing.rent}}/month | Beds: {{place.listing.beds}} / Baths: {{place.listing.baths}}</h4>
+										<table>
+											<tr ng-show="place.listing.dt">
+												<td class="profile-icon-td"><i class="fa fa-calendar profile-icon"></i></td>
+												<td class="profile-data-td"><span>Available: {{place.listing.dt}}</span></td>
+											</tr>
+											<tr ng-show="place.listing.enddt">
+												<td class="profile-icon-td"><i class="fa fa-calendar profile-icon"></i></td>
+												<td class="profile-data-td"><span>End: {{place.listing.enddt}}</span></td>
+											</tr>
+											<tr ng-show="place.listing.gender">
+												<td class="profile-icon-td"><i class="fa fa-users profile-icon"></i></td>
+												<td class="profile-data-td"><span>Roommates: {{place.listing.gender}}</span></td>
+											</tr>
+											<tr ng-show="place.listing.templaundry">
+												<td></td>
+												<td class="profile-data-td"><span>Laundry {{place.listing.laundry}}</span></td>
+											</tr>
+											<tr ng-show="place.listing.tempair">
+												<td></td>
+												<td class="profile-data-td"><span>Has {{place.listing.air}}</span></td>
+											</tr>
+										</table>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<p>{{place.listing.desc}}</p>
+									</div>
+								</div>
+								<div ng-if="$root.currentUser" class="row">
+									<div class="col-md-6" style="height: 200px;">
+										<carousel interval="0">
+											<slide ng-repeat="prof in place.lister.propics" active="slide.active">
+												<img ng-src="{{prof}}" style="margin: auto; max-height: 200px; width: auto;">
+											</slide>
+									    </carousel>
+									</div>
+									<div class="col-md-6">
+										<h3>{{place.lister.name}}</h3>
+										<h4>{{place.lister.gender}}, {{place.lister.age}}</h4>
+										<table>
+											<tr ng-show="place.lister.work">
+												<td class="profile-icon-td"><i class="fa fa-briefcase profile-icon"></i></td>
+												<td class="profile-data-td"><span ng-repeat="job in place.lister.work"> {{job.employer.name}}<span ng-hide="$last">,</span></span></td>
+											</tr>
+											<tr ng-show="place.lister.education">
+												<td class="profile-icon-td"><i class="fa fa-graduation-cap profile-icon"></i></td>
+												<td class="profile-data-td"><span ng-repeat="edu in place.lister.education"> {{edu.school.name}}<span ng-hide="$last">,</span></span></td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+					    </accordion-group>
+					</div>
+				</accordian>
+			</div>
+			<div ng-hide="listings.length > 0">
+				<div class="col-lg-12">
+					<h4 class="text-center empty-panel">You have no outstanding applications for currently active listings.</h4>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div ui-view></div>
+		</div>
+	</div>
+</div>

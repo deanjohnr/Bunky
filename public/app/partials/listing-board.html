@@ -1,0 +1,36 @@
+<div ui-view>
+	<div class="top-distance"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-lg-offset-3" ng-cloak>
+					<div ng-if="listing">
+						<div class="col-lg-12">
+							<h1 class="text-center">{{listing.fulladdress}}</h1>
+							<div class="text-center">
+								<button class="btn-lg btn-primary" ng-click="goManager()">Manager</button>
+								<button class="btn-lg btn-primary" ui-sref="listing({listingId: listing.id})">View</button>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="pull-left">
+								<button class="btn btn-default refresh-space" ng-click="refresh()"><i class="fa fa-refresh"></i></button>
+							</div>
+							<h5 class="pull-left">
+								<span ng-show="expiredt >= 0">Expires in {{expiredt}} Days</span>
+								<span ng-show="expiredt < 0">Listing Expired</span>
+							</h5>
+							<div class="pull-right">
+								<button ui-sref="list.editlisting({listingId: listing.id})" class="btn btn-default pull-right"><i class="fa fa-pencil"></i></button>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12" ng-if="!listing">
+						<div class="text-center">
+							<button ui-sref="list.newlisting" class="btn-lg btn-primary">CREATE LISTING</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

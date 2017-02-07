@@ -1,0 +1,47 @@
+<div ui-view>
+	<!-- Full Width Image Header -->
+    <header class="header-image">
+        <div class="headline">
+            <div class="container">
+                <div class="col-md-6 col-md-offset-3">
+                    <h1 class="text-center">FILL YOUR ROOM</h1>
+                    <br>
+                    <p class="lead text-muted">1. Create your listing below</p>
+                    <p class="lead text-muted">2. Add your Bunky listing link to your Craigslist listing description</p>
+                    <p class="lead text-muted headline-primary">Manage your applications with Bunky. Eee applicant facebook profiles, eliminate email threads with Bunky chat, and collect deposits before move-in day.</p>
+                </div>
+                <div class="col-md-6 col-md-offset-3">
+					<button ui-sref="list({userId: $root.currentUser.id})" class="btn btn-primary btn-block feature-btn">Create Listing</button>
+				</div>
+            </div>
+        </div>
+    </header>
+
+	<div class="container">
+
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline text-right">
+                        <li><a ui-sref="support">SUPPORT</a></li>
+                        <li><a href="https://angel.co/bunky/jobs">CAREERS</a></li>
+                        <li><a class="btn btn-primary" href="https://twitter.com/bunkyco" target="_blank"><i class="fa fa-2x fa-twitter fa-fw"></i></a></li>
+                        <li><a class="btn btn-primary" href="https://www.facebook.com/bunkyapp" target="_blank"><i class="fa fa-2x fa-facebook fa-fw"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>&copy; Bunky, Inc. 2015</li>
+                        <li><a ui-sref="privacy">Privacy</a></li>
+                        <li><a ui-sref="terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+</div>

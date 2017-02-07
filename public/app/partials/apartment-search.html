@@ -1,0 +1,68 @@
+<style type="text/css">
+    .angular-google-map-container { 
+      min-height: 100px;
+      top: 40px;
+      bottom: 0px;
+      width: 100%;
+      position: absolute;
+      z-index: -999; }
+</style>
+<style type="text/css">
+  .sub-nav {
+  }
+</style>
+<div class="navbar navbar-default navbar-static-top sub-nav">
+  <div class="container">
+    <div class="subnavbar-header navbar-header">
+      <button type="button" class="navbar-toggle subnavbar-toggle collapsed" data-toggle="subcollapse" data-target="#subnavbar" aria-expanded="false" aria-controls="navbar" ng-click="isSubCollapsed = !isSubCollapsed">
+        <span class="sr-only">Toggle Filters</span>
+        <span>Filters</span>
+        <span><i class="fa fa-sort-down"></i></span>
+      </button>
+    </div>
+    <div id="subnavbar" class="navbar-collapse subnavbar-collapse collapse subcollapse" collapse="isSubCollapsed">
+      <form class="navbar-form center-block">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">$</div>
+            <input type="number" class="form-control" id="rent" ng-model="price" placeholder="Max Rent">
+            <div class="input-group-addon">Monthly</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-primary cust-checkbox" ng-model="laundryfilter" btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">Laundry In Building</button>
+        </div>
+        <div class="form-group">
+          <div class="btn-group" id="gender">
+            <label class="btn btn-primary" ng-model="genderfilter" btn-radio="'female'">Female</label>
+            <label class="btn btn-primary" ng-model="genderfilter" btn-radio="'male'">Male</label>
+            <label class="btn btn-primary" ng-model="genderfilter" btn-radio="'both'">Either</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input type="text" class="form-control" datepicker-popup="shortDate" ng-model="dtfilter" is-open="opened" min-date="today" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-primary" ng-click="open($event)"><i class="fa fa-calendar-o"></i></button>
+            </span>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-danger" ng-click="priceFilter()">FILTER</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<ui-gmap-google-map center='map.center' zoom='map.zoom' events='map.events'>
+  <ui-gmap-search-box template="searchbox.template" events="searchbox.events" options="searchbox.options" position="searchbox.position"></ui-gmap-search-box>
+  <ui-gmap-markers
+    models='markers'
+    coords='"coords"'
+    click="'click'"
+    control='markerControl'
+    doRebuildAll="'true'"
+    >
+  </ui-gmap-markers>
+  <ui-gmap-layer type='TransitLayer'></ui-gmap-layer>
+</ui-gmap-google-map>

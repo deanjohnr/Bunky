@@ -1,0 +1,197 @@
+<style type="text/css">
+	.carousel-inner { height: 200px; }
+	.angular-google-map-container { height: 200px; }
+	.panel {
+		border-right: 0;
+		border-left: 0;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+	.panel-default>.panel-heading {
+		background-color: #fff;
+	}
+	.panel-body {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.inner-body {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	.chat-container {
+		position: fixed;
+	}
+</style>
+
+<div class="row">
+	<div class="col-md-8">
+		<tabset justified="true">
+			<tab heading="New Applications">
+				<div ng-show="newapps.length > 0">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-12">
+									<h3>{{newapps[0].name}}</h3>
+					      			<h5>{{newapps[0].gender}} | {{newapps[0].age}}</h5>
+					      		</div>
+					      	</div>
+							<div class="row">
+								<div class="col-lg-12">
+								  	<carousel interval="0">
+										<slide ng-repeat="newapppic in newapps[0].picUrls" active="slide.active">
+											<img ng-src="{{newapppic}}" style="margin: auto; max-height: 400px; width: auto;">
+										</slide>
+								    </carousel>
+								</div>
+							</div>
+						    <div class="row">
+					      		<div class="col-lg-12">
+					      			<p ng-show="newapps[0].work"><span ng-repeat="job in newapps[0].work">{{job.employer.name}}<span ng-hide="$last">, </span></span></p>
+					      			<p ng-show="newapps[0].education"><span ng-repeat="edu in newapps[0].education">{{edu.school.name}}<span ng-hide="$last">, </span></p>
+					      		</div>
+					      	</div>
+					      	<div class="row">
+					      		<div class="col-lg-12">
+					      			<button class="btn btn-danger" ng-click="newToReject()">REJECT</button>
+					      			<button class="btn btn-primary pull-right" ng-click="newToAccept()">ACCEPT</button>
+					      		</div>
+					      	</div>
+						</div>
+					</div>
+				</div>
+				<div ng-hide="newapps.length > 0">
+					<div class="col-lg-12">
+						<h4 class="text-center empty-panel">No new active applications at this time.</h4>
+					</div>
+				</div>
+			</tab>
+			<tab heading="Rejected">
+				<div ng-show="rejectapps.length > 0">
+					<accordion close-others=true>
+					  	<div ng-repeat="reject in rejectapps">
+					  		<accordion-group>
+							    <accordion-heading>
+						    		<table>
+						    			<td>
+						    				<img ng-src="{{reject.picUrls[0]}}" class="" height="50px">
+						    			</td>
+						    			<td class="thumb-data-td">
+								    		<h4>
+								    			{{reject.name}}  |  {{reject.gender}}, {{reject.age}}
+								    		</h4>
+								    	</td>
+						    		</table>
+						    	</accordion-heading>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-6" style="height: 200px;">
+											<carousel interval="0">
+												<slide ng-repeat="prof in reject.picUrls" active="slide.active">
+													<img ng-src="{{prof}}" style="margin: auto; max-height: 200px; width: auto;">
+												</slide>
+										    </carousel>
+										</div>
+										<div class="col-md-6">
+											<div class="col-lg-12">
+												<h3>{{reject.name}}</h3>
+												<h4>{{reject.gender}}, {{reject.age}}</h4>
+											</div>
+											<div class="col-lg-12">
+												<table>
+													<tr ng-show="reject.work">
+														<td class="profile-icon-td"><i class="fa fa-briefcase profile-icon"></i></td>
+														<td class="profile-data-td"><span ng-repeat="job in reject.work"> {{job.employer.name}}<span ng-hide="$last">,</span></span></td>
+													</tr>
+													<tr ng-show="reject.education">
+														<td class="profile-icon-td"><i class="fa fa-graduation-cap profile-icon"></i></td>
+														<td class="profile-data-td"><span ng-repeat="edu in reject.education"> {{edu.school.name}}<span ng-hide="$last">,</span></span></td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+							      	<div class="row">
+							      		<div class="col-lg-12">
+							      			<button class="btn btn-primary pull-right" ng-click="rejectToAccept($index)">ACCEPT</button>
+							      		</div>
+							      	</div>
+								</div>
+						    </accordion-group>
+						</div>
+					</accordian>
+				</div>
+				<div ng-hide="rejectapps.length > 0">
+					<div class="col-lg-12">
+						<h4 class="text-center empty-panel">You have not rejected any active applications.</h4>
+					</div>
+				</div>
+			</tab>
+			<tab heading="Accepted">
+				<div ng-show="acceptapps.length > 0">
+					<accordion close-others=true>
+					  	<div ng-repeat="accept in acceptapps">
+						    <accordion-group>
+							    <accordion-heading>
+						    		<table>
+						    			<td>
+						    				<img ng-src="{{accept.picUrls[0]}}" class="" height="50px">
+						    			</td>
+						    			<td class="thumb-data-td">
+								    		<h4>
+								    			{{accept.name}}  |  {{accept.gender}}, {{accept.age}}
+								    		</h4>
+								    	</td>
+						    		</table>
+						    	</accordion-heading>
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-md-6" style="height: 200px;">
+											<carousel interval="0">
+												<slide ng-repeat="prof in accept.picUrls" active="slide.active">
+													<img ng-src="{{prof}}" style="margin: auto; max-height: 200px; width: auto;">
+												</slide>
+										    </carousel>
+										</div>
+										<div class="col-md-6">
+											<div class="col-lg-12">
+												<h3>{{accept.name}}<button class="btn btn-primary pull-right" ng-click="openChat(accept.hunter)"><i class="fa fa-comment"></i></button></h3>
+												<h4>{{accept.gender}}, {{accept.age}}</h4>
+											</div>
+											<div class="col-lg-12">
+												<table>
+													<tr ng-show="accept.work">
+														<td class="profile-icon-td"><i class="fa fa-briefcase profile-icon"></i></td>
+														<td class="profile-data-td"><span ng-repeat="job in accept.work"> {{job.employer.name}}<span ng-hide="$last">,</span></span></td>
+													</tr>
+													<tr ng-show="accept.education">
+														<td class="profile-icon-td"><i class="fa fa-graduation-cap profile-icon"></i></td>
+														<td class="profile-data-td"><span ng-repeat="edu in accept.education"> {{edu.school.name}}<span ng-hide="$last">,</span></span></td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+							      		<div class="col-lg-12">
+							      			<button class="btn btn-danger" ng-click="acceptToReject($index)">REJECT</button>
+							      			<button class="btn btn-primary pull-right" ng-click="acceptToDeal()">$ Collect</button>
+							      		</div>
+							      	</div>
+								</div>
+						    </accordion-group>
+						</div>
+					</accordian>
+				</div>
+				<div ng-hide="acceptapps.length > 0">
+					<div class="col-lg-12">
+						<h4 class="text-center empty-panel">You have not accepted any active applications.</h4>
+					</div>
+				</div>
+			</tab>
+		</tabset>
+	</div>
+	<div class="col-lg-4">
+		<div ui-view></div>
+	</div>
+</div>

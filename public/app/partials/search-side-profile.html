@@ -1,0 +1,40 @@
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3 class="panel-title">{{listing.address}}</h3></div>
+			<div class="panel-body" style="height: 200px;">
+				<carousel interval="0">
+					<slide ng-repeat="pic in picUrls" active="slide.active">
+						<img ng-src="{{pic}}" style="margin: auto; max-height: 200px; width: auto;">
+						<div class="carousel-caption">
+						  <h4>Slide</h4>
+						  <p>slide text</p>
+						</div>
+					</slide>
+			    </carousel>
+			</div>
+			<div class="panel-body">
+				<h4>${{listing.rent}}/month | Beds: {{listing.beds}} / Baths: {{listing.baths}}</h4>
+				<p>Available: {{listing.dt}}</p>
+				<p>End Date: {{listing.enddt}}</p>
+				<p>Laundry: {{listing.laundry}}</p>
+				<p>A/C: {{listing.air}}</p>
+				<p>Roommates: {{listing.gender}}</p>
+				<p>Description: {{listing.desc}}</p>
+			</div>
+			<div class="panel-body" style="height: 200px;">
+				<carousel interval="0">
+					<slide ng-repeat="prof in profile.propics" active="slide.active">
+						<img ng-src="{{prof}}" style="margin: auto; max-height: 200px; width: auto;">
+						<div class="carousel-caption">
+						  <h4>Slide</h4>
+						  <p>slide text</p>
+						</div>
+					</slide>
+			    </carousel>
+			</div>
+			<div class="panel-body">
+				<h4>{{profile.gender}} | {{profile.age}}</h4>
+				<p ng-show="profile.work">Work:<span ng-repeat="job in profile.work"> {{job.employer.name}}<span ng-hide="$last">,</span></span></p>
+				<p ng-show="profile.education">Education:<span ng-repeat="edu in profile.education"> {{edu.school.name}}<span ng-hide="$last">,</span></span></p>
+				<button class="btn btn-success" ng-click="apply()">APPLY</button>
+			</div>
+		</div>

@@ -1,0 +1,39 @@
+<style type="text/css">.carousel-inner { height: 500px; }</style>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="panel-body">
+				<carousel interval="0">
+					<slide ng-repeat="prof in profile.propics" active="slide.active" style="height:500px; background:url({{prof}}) no-repeat center center; background-size: contain;">
+						<img ng-src="" style="margin: auto auto auto auto; height:auto; max-height: 500px; width: auto;">
+					</slide>
+			    </carousel>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="col-lg-12">
+			<div class="panel-body">
+				<h3>{{profile.name}}</h3>
+				<h4>{{profile.gender}}, {{profile.age}}</h4>
+				<table>
+					<tr ng-show="profile.work">
+						<td class="profile-icon-td"><i class="fa fa-briefcase profile-icon"></i></td>
+						<td class="profile-data-td"><span ng-repeat="job in profile.work"> {{job.employer.name}}<span ng-hide="$last">,</span></span></td>
+					</tr>
+					<tr ng-show="profile.education">
+						<td class="profile-icon-td"><i class="fa fa-graduation-cap profile-icon"></i></td>
+						<td class="profile-data-td"><span ng-repeat="edu in profile.education"> {{edu.school.name}}<span ng-hide="$last">,</span></span></td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-xs-6">
+				<button class="btn btn-primary center-block" ng-click="refreshUser()">Refresh Profile</button>
+			</div>
+			<div class="col-xs-6">
+				<button class="btn btn-danger center-block" ng-click="logout()">Logout</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--  -->

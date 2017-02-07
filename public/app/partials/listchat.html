@@ -1,0 +1,31 @@
+<div class="panel panel-default hidden-sm">
+	<div class="panel-heading chat-heading"><h1 class="panel-title text-center chat-title" ng-hide="chatname">Chat</h1><h1 class="panel-title text-center chat-title" ng-show="chatname">{{chatname}}</h1></div>
+	<div class="panel-body chat-content">
+		<ul class="chat">
+			<div class="message" ng-repeat="message in convo track by message.date">
+				<li class="receive-message left clearfix" ng-show="message.sender == chathunter">
+					<div class="header">
+						<p class="message-date" ng-show="message.sender == chathunter && message.day == today">{{message.shorttime}}</p>
+						<p class="message-date" ng-show="message.sender == chathunter && message.day != today">{{message.fulltime}}</p>
+					</div>
+					<div class="chat-body clearfix">
+						<p ng-show="message.sender == chathunter">{{message.content}}</p>
+					</div>
+				</li>
+				<li class="send-message right clearfix" ng-show="message.sender == chatlisting">
+					<div class="header">
+						<p class="message-date text-right" ng-show="message.sender == chatlisting && message.day == today">{{message.shorttime}}</p>
+						<p class="message-date text-right" ng-show="message.sender == chatlisting && message.day != today">{{message.fulltime}}</p>
+					</div>
+					<div class="chat-body clearfix">
+						<p ng-show="message.sender == chatlisting">{{message.content}}</p>
+					</div>
+				</li>
+			</div>
+		</ul>
+	</div>
+	<div class="panel-footer">
+		<button class="btn btn-primary pull-right" ng-click="send()"><i class="fa fa-paper-plane"></i></button>
+		<textarea rows="5" type="text" ng-model="sendInput" style="width:100%"></testarea>
+	</div>
+</div>
